@@ -3,11 +3,12 @@ import Block from "../components/dashboardComponents/Block";
 import Card from "../components/dashboardComponents/Card";
 import Chart from "../components/dashboardComponents/Orders";
 import { MdProductionQuantityLimits } from "react-icons/md";
+import {MdLocalShipping} from "react-icons/md";
+import {MdDeliveryDining} from "react-icons/md";
 import { GoGraph } from "react-icons/go";
-
 const BlockBar = [
   {
-    label: 200,
+    label: 228,
     isActive: "true",
     icon: GoGraph,
     percentage: "+30%",
@@ -17,25 +18,27 @@ const BlockBar = [
     list: MdProductionQuantityLimits,
   },
   {
-    label: "200",
+    label: "6",
     isActive: "true",
     icon: GoGraph,
-    percentage: "+30%",
+    percentage: "+15%",
     message: "This Month",
-    text: "Total Orders",
-    list: MdProductionQuantityLimits,
+    text: "To be shipped",
+    // list: MdProductionQuantityLimits,
+    list: MdLocalShipping,
   },
   ,
   {
-    label: "200",
+    label: "20",
     isActive: "true",
     icon: GoGraph,
-    percentage: "+30%",
+    percentage: "+10%",
     message: "This Month",
-    text: "Total Orders",
+    text: "To be delivered",
 
-    list: MdProductionQuantityLimits,
+    list: MdDeliveryDining,
   },
+
 ];
 
 const Dashboard = () => {
