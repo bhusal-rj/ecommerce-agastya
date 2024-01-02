@@ -35,5 +35,8 @@ export class OrderEntity {
   shipCountry: string;
 
   @ManyToOne(() => ChannelEntity, (channel) => channel.orders)
-  channel: number;
+  channel: ChannelEntity;
+
+  @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  createdDate: Date;
 }

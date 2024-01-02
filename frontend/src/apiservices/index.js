@@ -19,6 +19,7 @@ export const getOrders = async () => {
     return res.data;
   };
 
-  export const AddProduct=async()=>{
-    console.log("added product");
+  export const AddProduct=async(payload)=>{
+    const res = await postRequest("/products",payload);
+    return res.data;
   }
