@@ -13,3 +13,5 @@ const Sidebar = function(){
         </div>
     )
 }
+
+export default Sidebar;

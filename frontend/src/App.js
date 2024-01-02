@@ -1,21 +1,21 @@
 import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dashboard from "./Routes/Dashboard";
+import Products from "./Routes/Products";
+import ErrorPage from "./Routes/404";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route index path ="dashboard" element={<Dashboard />} />
+          <Route path="products" element={<Products />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
     </div>
   );
 }
