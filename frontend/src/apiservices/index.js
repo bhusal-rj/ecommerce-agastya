@@ -5,7 +5,7 @@ export const getOrders = async () => {
     return res.data;
   };
   export const getChannels = async () => {
-    const res = await getRequest("/channels/all");
+    const res = await getRequest("/channels");
     return res.data;
   };
   export const AddProduct=async()=>{
