@@ -21,7 +21,6 @@ export class StorePlugin implements OnApplicationBootstrap {
 
   async onApplicationBootstrap() {
     this.eventBus.ofType(OrderPlacedEvent).subscribe(async (event) => {
-      const line = event?.order?.lines[0];
       const data = {
         url: "http://localhost:4000/",
         orderId: event.order.id.toString(),
@@ -30,17 +29,21 @@ export class StorePlugin implements OnApplicationBootstrap {
         shipCity: event.order?.shippingAddress?.city || "",
         shipCountry: event?.order?.shippingAddress?.country || "",
         shipCountryCode: event?.order?.shippingAddress?.country || "",
-
-        qty: line.quantity,
-        title: line.productVariant?.name,
-        sku: line.productVariant.sku,
-        price: line.productVariant.price / 10,
-        totalprice: line.productVariant.priceWithTax / 10,
-        taxamount:
-          (line.productVariant.priceWithTax - line.productVariant.price) / 10,
-
-        channelId: process.env.SELRO_CHANNEL_ID,
+        products: [] as any[],
       };
+      for (let line of event?.order.lines) {
+        data.products.push({
+          qty: line.quantity,
+          title: line.productVariant?.name,
+          sku: line.productVariant.sku,
+          price: line.productVariant.price / 10,
+          totalprice: line.productVariant.priceWithTax / 10,
+          taxamount:
+            (line.productVariant.priceWithTax - line.productVariant.price) / 10,
+        });
+      }
+      const line = event?.order?.lines[0];
+
       console.log(data);
       await fetch("http://localhost:3000/api/v1/orders/new", {
         method: "POST",

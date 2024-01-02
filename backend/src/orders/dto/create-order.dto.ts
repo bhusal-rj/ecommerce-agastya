@@ -1,5 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+export class ProductInfoDto {
+  @ApiProperty()
+  qty: number;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty()
+  sku: string;
+
+  @ApiProperty()
+  totalprice: number;
+}
+
 export class CreateOrderDto {
   @ApiProperty()
   url: string;
@@ -19,15 +33,6 @@ export class CreateOrderDto {
   @ApiProperty()
   shipCountry: string;
 
-  @ApiProperty()
-  qty: number;
-
-  @ApiProperty()
-  title: string;
-
-  @ApiProperty()
-  sku: string;
-
-  @ApiProperty()
-  totalprice: number;
+  @ApiProperty({ type: [ProductInfoDto] })
+  products: ProductInfoDto[];
 }

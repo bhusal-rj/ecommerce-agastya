@@ -21,31 +21,35 @@ export class OrdersService {
     private readonly inventoryRepository: Repository<InventoryEntity>,
   ) {}
   async createOrder(createOrderDto: CreateOrderDto) {
-    // const newOrder = this.orderRepository.create();
-    // const createdOrder = Object.assign(newOrder, createOrderDto);
-    // const savedOrder = await this.orderRepository.save(createdOrder);
-
     const channelRequest = await this.channelRepository.findOne({
       where: { url: createOrderDto.url },
       relations: ['inventory', 'products'],
     });
+
+    const newOrder = this.orderRepository.create();
+    const createdOrder = Object.assign(newOrder, createOrderDto);
+
     if (!channelRequest) throw new Error('There has been an error');
-    const product = await this.productRepository.findOne({
-      where: { sku: createOrderDto.sku },
-    });
-    const inventory = await this.inventoryRepository
-      .createQueryBuilder('inventory')
-      .leftJoinAndSelect('inventory.channel', 'channel')
-      .andWhere('channel.id = :id', { id: channelRequest.id })
-      .leftJoinAndSelect('inventory.product', 'product')
-      .andWhere('product.sku = :sku', { sku: createOrderDto.sku })
-      .getOne();
-    const boughtQty = createOrderDto.qty;
-    inventory.stock = inventory.stock - boughtQty;
-    product.stock = product.stock - boughtQty;
-    const saved = await this.inventoryRepository.save(inventory);
-    await this.productRepository.save(product);
-    console.log(saved);
+    for (let productDto of createOrderDto.products) {
+      const product = await this.productRepository.findOne({
+        where: { sku: productDto.sku },
+      });
+      const inventory = await this.inventoryRepository
+        .createQueryBuilder('inventory')
+        .leftJoinAndSelect('inventory.channel', 'channel')
+        .andWhere('channel.id = :id', { id: channelRequest.id })
+        .leftJoinAndSelect('inventory.product', 'product')
+        .andWhere('product.sku = :sku', { sku: productDto.sku })
+        .getOne();
+      const boughtQty = productDto.qty;
+      inventory.stock = inventory.stock - boughtQty;
+      product.stock = product.stock - boughtQty;
+      const saved = await this.inventoryRepository.save(inventory);
+      await this.productRepository.save(product);
+      console.log(saved);
+    }
+    await this.orderRepository.save(createdOrder);
+
     //notify other about the stock syncing
   }
 
