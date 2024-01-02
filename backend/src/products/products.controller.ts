@@ -21,4 +21,7 @@ export class ProductController {
   ): Promise<ProductEntity> {
     return await this.productServices.createProduct(createProductDTO);
   }
+
+  @Post('ai')
+  async getInformationAbout(@Body() message: string) {}
 }

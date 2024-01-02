@@ -4,11 +4,11 @@
 
 export const environment = {
     production: false,
-    apiHost: 'http://localhost',
-    apiPort: 3000,
-    shopApiPath: 'shop-api',
-    baseHref: '/',
-    tokenMethod: 'bearer',
+    apiHost: "http://localhost",
+    apiPort: 4000,
+    shopApiPath: "shop-api",
+    baseHref: "/",
+    tokenMethod: "bearer",
 };
 
 /*

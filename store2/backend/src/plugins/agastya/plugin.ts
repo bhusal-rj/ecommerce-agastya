@@ -23,7 +23,7 @@ export class StorePlugin implements OnApplicationBootstrap {
     this.eventBus.ofType(OrderPlacedEvent).subscribe(async (event) => {
       const line = event?.order?.lines[0];
       const data = {
-        url: "http://localhost:4000/",
+        url: "http://localhost:5000/",
         orderId: event.order.id.toString(),
         shipPostalCode: event.order?.shippingAddress?.postalCode || "",
         shipAddress1: event.order?.shippingAddress?.streetLine1 || "",
@@ -41,7 +41,7 @@ export class StorePlugin implements OnApplicationBootstrap {
 
         channelId: process.env.SELRO_CHANNEL_ID,
       };
-      console.log(data);
+
       await fetch("http://localhost:3000/api/v1/orders/new", {
         method: "POST",
         headers: {

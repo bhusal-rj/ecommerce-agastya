@@ -795,7 +795,7 @@
   resolved "https://registry.yarnpkg.com/@vendure/common/-/common-2.1.5.tgz#481cc18e81254b9a43aa7ff624cff0313cdc82bd"
   integrity sha512-OpT3L5IXY9sR6TNHm0bqW8OqnQwVpja03QQI15XYPLoR7inStf1fsaOaU2OFKhMrh3NqOuMXsiRmJXLIWEqP3w==
 
-"@vendure/core@2.1.5":
+"@vendure/core@^2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@vendure/core/-/core-2.1.5.tgz#9d54877d0ffbeca24459d9c4bb6cb24bdc7b243c"
   integrity sha512-KsBgZlnDrw1j/JkImM4d6FXcctOVqgp0rQKO4oPQ71HkJ1iuoTm/6dWXFZ6aaJ2tcj79zf57C2+MVHrUTmfVAQ==

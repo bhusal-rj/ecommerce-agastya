@@ -5,9 +5,10 @@ import { Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { createdProductTypes } from './types/product.types';
 import { InjectRepository } from '@nestjs/typeorm';
-import { retry } from 'rxjs';
+
 import { InventoryEntity } from './entities/inventory.entity';
 import { ChannelEntity } from 'src/channels/entities/channel.entity';
+import { OrderEntity } from 'src/orders/entities/order.entity';
 
 @Injectable()
 export class ProductsService {
@@ -18,6 +19,8 @@ export class ProductsService {
     private readonly inventoryRepository: Repository<InventoryEntity>,
     @InjectRepository(ChannelEntity)
     private readonly channelRepository: Repository<ChannelEntity>,
+    @InjectRepository(OrderEntity)
+    private readonly orderRepository: Repository<OrderEntity>,
   ) {}
 
   async createProduct(
@@ -54,6 +57,17 @@ export class ProductsService {
         inventory.stock = singleChannel.stock;
         const savedInventory = await this.inventoryRepository.save(inventory);
         savedInventories.push(savedInventory);
+
+        //notify the backend regarding the product addition
+        const data = await fetch(`${channel.url}products`, {
+          method: 'POST',
+          body: JSON.stringify(createProductDto),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log(channel.url);
       }
     }
 
@@ -71,6 +85,19 @@ export class ProductsService {
       products: allProducts,
       count: allProducts.length,
     };
+  }
+
+  async getInformationFromAI(message: string) {
+    //This is for AI part
+    const allProducts = await this.productRepository.find({
+      relations: ['inventory', 'channel'],
+    });
+    const allInventories = await this.inventoryRepository.find({
+      relations: ['product', 'channel'],
+    });
+    const allOrders = await this.orderRepository.find({
+      relations: ['channels', 'products'],
+    });
   }
 
   findOne(id: number) {
