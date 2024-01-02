@@ -1,5 +1,4 @@
 import styles from "./AddProdForm.module.css";
-import ChannelStockForm from "./ChannelStockForm";
 import {useState} from 'react'
 function AddProdForm(){
     const channelsDetails = [
@@ -41,7 +40,7 @@ function AddProdForm(){
     }
     return(
         <div className={styles.formWrapper}>
-            <h2>Add Product</h2>
+            <h1>Add Product</h1>
             <form onSubmit={handleSubmit}>
                 <div className={styles.formInput}>
                 <label>Product Name </label>
@@ -51,12 +50,6 @@ function AddProdForm(){
                 <div className={styles.formInput}>
                 <label>Price</label>
                 <input type="number" name="price" />
-                </div>
-                   
-
-                <div className="form-input">
-                <label>Stock</label>
-                <input type="number" name="number" />
                 </div>
 
                 <div className={styles.formInput}>

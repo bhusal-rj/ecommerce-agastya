@@ -1,9 +1,0 @@
-.formInput{
-    margin-top: 20px;
-}
-.formInput label{
-    color:var(--dark-gray);
-    font-weight: 600;
-    display: inline-block;
-    margin-bottom: 7px;
-}
