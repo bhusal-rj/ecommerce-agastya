@@ -6,9 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 function AddProdForm() {
   const [channels, setChannels] = useState(null);
-  //const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedChannels, setSelectedChannels] = useState([]);
-  const navigate = useNavigate();
 
   const add = (e, id) => {
     console.log(e.target.value);
@@ -134,12 +133,8 @@ function AddProdForm() {
                         sku: "",
                       });
                       setSelectedChannels([]);
-                      navigate("/products")
-        })
-    
- 
-      
-      
+                      useNavigate("/products")
+        })  
   }
 
   function handleStockForm(channeled) {

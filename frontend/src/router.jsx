@@ -36,7 +36,7 @@ export default createBrowserRouter([
         element:<OrderView />
       },
       {
-        path:"/products/:orderId",
+        path:"/products/:productId",
         element:<ProductView />
       },
       {

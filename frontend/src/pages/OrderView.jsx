@@ -8,9 +8,16 @@ export default function ProductView(){
 
     useEffect(() =>{
     getOrders().then(data =>{
+        data.orders.forEach(order =>{
+            let total = 0;
+            order.products.forEach(prod =>{
+                total+=prod.price * prod.qty;
+            })
+            order.totalPrice = total;
+        })
+        console.log(data.orders)
         const prd=data.orders.filter(p => p.orderId == orderId)[0];
         setOrder(prd);
-        console.log(prd)
     })
     .catch(err =>{
       console.log(err);
@@ -23,7 +30,7 @@ export default function ProductView(){
             <div class="flex flex-col">
                 <div class="flex justify-center flex-col items-start w-full lg:w-9/12 xl:w-full">
                     <h3 class="text-3xl xl:text-4xl dark:text-white font-semibold leading-7 xl:leading-9 w-full md:text-left text-gray-800">Order Summary</h3>
-                    <h3 class="text-lg dark:text-white w-full font-semibold leading-6 text-gray-500 mt-4">OrderId : 2894</h3>
+                    <h3 class="text-lg dark:text-white w-full font-semibold leading-6 text-gray-500 mt-4">OrderId : {orderId}</h3>
                     <div class="flex justify-center items-center w-full mt-8 flex-col space-y-4">
 
                     {order ? order.products.map(product =>{
@@ -41,7 +48,7 @@ export default function ProductView(){
                                     </div>
                                 </div>
                                 <div class="flex mt-4 md:mt-0 md:justify-end items-center w-full">
-                                    <p class="text-xl dark:text-white lg:text-2xl font-semibold leading-5 lg:leading-6 text-gray-800">$28.00</p>
+                                    <p class="text-xl dark:text-white lg:text-2xl font-semibold leading-5 lg:leading-6 text-gray-800">${product.price * product.qty}</p>
                                 </div>
                             </div>
                         </div>
@@ -67,26 +74,9 @@ export default function ProductView(){
                             </div>
                         </div>
                         <div class="flex flex-col w-full space-y-4 w-full">
-                            <div class="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
-                                <div class="flex justify-between w-full">
-                                    <p class="text-base dark:text-white leading-4 text-gray-800">Subtotal</p>
-                                    <p class="text-base dark:text-gray-300 leading-4 text-gray-600">$56.00</p>
-                                </div>
-                                <div class="flex justify-between w-full">
-                                    <p class="text-base leading-4 dark:text-white text-gray-800">
-                                        Discount
-                                        <span class="bg-gray-200  p-1 text-xs font-medium leading-3 text-gray-800">STUDENT</span>
-                                    </p>
-                                    <p class="text-base dark:text-gray-300 leading-4 text-gray-600">-$28.00 (50%)</p>
-                                </div>
-                                <div class="flex justify-between w-full">
-                                    <p class="text-base dark:text-white leading-4 text-gray-800">Shipping</p>
-                                    <p class="text-base dark:text-gray-300 leading-4 text-gray-600">$8.00</p>
-                                </div>
-                            </div>
                             <div class="flex justify-between items-center w-full">
                                 <p class="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
-                                <p class="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">$36.00</p>
+                                <p class="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">${order ? order.totalPrice : ""}</p>
                             </div>
                             <div class="flex w-full justify-center items-center pt-1 md:pt-4 xl:pt-8 space-y-6 md:space-y-8 flex-col">
                                 <button class="py-5 dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 w-full text-base font-medium leading-4 text-white bg-gray-800 hover:bg-black">Track Your Order</button>
