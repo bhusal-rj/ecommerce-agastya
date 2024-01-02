@@ -12,6 +12,12 @@ function AddProdForm(){
                 <label>Price</label>
                 <input type="number" name="price" />
                 </div>
+                   
+
+                <div className="form-input">
+                <label>Stock</label>
+                <input type="number" name="number" />
+                </div>
 
                 <div className="form-input">
                 <label>Description </label>
