@@ -20,7 +20,7 @@ import { config } from './ormconfig';
       isGlobal: true,
     }),
   ],
-  controllers: [AppController, OrdersController],
-  providers: [AppService, OrdersService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

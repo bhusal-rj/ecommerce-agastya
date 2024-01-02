@@ -1,3 +1,4 @@
+import { OrderEntity } from 'src/orders/entities/order.entity';
 import { InventoryEntity } from 'src/products/entities/inventory.entity';
 import { ProductEntity } from 'src/products/entities/product.entity';
 import {
@@ -28,4 +29,7 @@ export class ChannelEntity {
   @OneToMany(() => InventoryEntity, (inventory) => inventory.channel)
   @JoinColumn()
   inventory: InventoryEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.channel)
+  orders: OrderEntity[];
 }
