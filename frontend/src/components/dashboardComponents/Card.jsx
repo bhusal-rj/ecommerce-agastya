@@ -16,7 +16,7 @@ const Card = () => {
      
     },
     {
-      products:"Acer Nitro 5",
+      products:"AcerNitro5",
      
     },
     {
@@ -24,7 +24,7 @@ const Card = () => {
      
     },
     {
-      products:"Gaming mouse",
+      products:"Mouse",
      
     },
     {
