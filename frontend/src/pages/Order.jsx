@@ -3,51 +3,12 @@ import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoFilterOutline } from "react-icons/io5";
 import { IoMdArrowDropright } from "react-icons/io";
-import Stock from "../components/productComponents/Stock";
+import Orders from "../components/productComponents/Orders";
 import { useEffect } from "react";
-import { getOrders } from "../apiservices";
-const Orders = () => {
-  const Stock_Quantity = [
-    {
-      product: "Iphone",
-      Quantity: 20,
-    },
-    {
-      product: "Smart Watch",
-      Quantity: 45,
-    },
-    {
-      product: "Television",
-      Quantity: 67,
-    },
-    {
-      product: "EarPhone",
-      Quantity: 84,
-    },
-  ];
-
-  const DataList = [
-    {
-      label: "S.N",
-    },
-    {
-      label: "Product Name",
-    },
-    {
-      label: "SKU",
-    },
-    {
-      label: "Stock Quantity",
-    },
-    {
-      label: "Category",
-    },
-    {
-      label: "Actions",
-    },
-  ];
-  const [inputValue, setInputValue] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+import { getOrders } from "../apiservices/index";
+const Order = () => {
+const [inputValue, setInputValue] = useState("");
+const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
@@ -55,12 +16,15 @@ const Orders = () => {
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
-const [orders,setOrders]=useState("");
-  useEffect(()=>{
-      getOrders().then((response)=>{
-          setOrders(response.data);
-      });
-  });
+
+  const [ords,setOrds] = useState([]);
+  useEffect(() =>{
+    getOrders().then(data =>{
+      setOrds(data.orders);
+    }).catch(err =>{
+      console.log(err);
+    })
+  },[])
 
   return (
     <div className="w-3/4">
@@ -115,14 +79,10 @@ const [orders,setOrders]=useState("");
           </div>
         </div>
       </div>
-      {orders.length>0 ? (
-         <Stock orders={orders}/>
-      ) : (
-        <p>Loading orders.......</p>
-      )}
       
+      <Orders orders={ords} />
     </div>
   );
 };
 
-export default Orders;
+export default Order;
