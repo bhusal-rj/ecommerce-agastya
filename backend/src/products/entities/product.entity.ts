@@ -36,4 +36,7 @@ export class ProductEntity {
 
   @Column()
   stock: number;
+
+  @Column({ default: 0 })
+  qty: number;
 }

@@ -52,6 +52,9 @@ export class OrdersService {
         .andWhere('product.sku = :sku', { sku: productDto.sku })
         .getOne();
 
+      console.log(inventory);
+
+      product.qty = productDto.qty;
       newOrder.products.push(product);
       const boughtQty = productDto.qty;
       inventory.stock = inventory.stock - boughtQty;
@@ -60,7 +63,7 @@ export class OrdersService {
       const saved = await this.inventoryRepository.save(inventory);
 
       await this.productRepository.save(product);
-      console.log(saved);
+      console.log('saved', saved);
     }
 
     await this.orderRepository.save(newOrder);
