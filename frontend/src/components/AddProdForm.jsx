@@ -8,7 +8,6 @@ function AddProdForm() {
   const [channels, setChannels] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedChannels, setSelectedChannels] = useState([]);
-  const navigate = useNavigate();
 
   const add = (e, id) => {
     console.log(e.target.value);
@@ -134,6 +133,7 @@ function AddProdForm() {
                         sku: "",
                       });
                       setSelectedChannels([]);
+<<<<<<< HEAD
                       navigate("/products")
         }).catch(function(error) {
             console.log(error);
@@ -142,6 +142,10 @@ function AddProdForm() {
  
       
       
+=======
+                      useNavigate("/products")
+        })  
+>>>>>>> 781bc95e126c6a49986196fb51c84f2e20dc9011
   }
 
   function handleStockForm(channeled) {

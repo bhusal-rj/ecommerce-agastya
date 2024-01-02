@@ -6,7 +6,7 @@ export const getProducts = async() =>{
 }
 
 export const getOrders = async () => {
-    const res = await getRequest("/orders/all");
+    const res = await getRequest("/orders/");
     return res.data;
   };
   export const getChannels = async () => {

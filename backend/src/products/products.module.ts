@@ -6,6 +6,7 @@ import { ProductEntity } from './entities/product.entity';
 import { InventoryEntity } from './entities/inventory.entity';
 import { ChannelEntity } from 'src/channels/entities/channel.entity';
 import { OrderEntity } from 'src/orders/entities/order.entity';
+import { ChainService } from './chain.services';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { OrderEntity } from 'src/orders/entities/order.entity';
     TypeOrmModule.forFeature([OrderEntity]),
   ],
   controllers: [ProductController],
-  providers: [ProductsService],
+  providers: [ProductsService, ChainService],
 })
 export class ProductsModule {}

@@ -10,86 +10,32 @@ const Product = ({products}) => {
     const Quantity=[20,45,66]
     const Category=["Electronics","Electronics","Electronics"]
     return(
-        <div className=' flex mt-6 justify-between w-[80%] shadow-inherit'>
-            <div>
-               <p className='text-lg font-semibold'>SN</p>
-               <div>
-                {
-                    products.map((order)=>{
-                        return( <p className='text-gray-500 text-sm py-1'>{order.id}</p> )
-                    })
-                }
+        <div className='mt-6 flex flex-col'>
+        <div className='flex flex-row'>
+            <h3 className='basis-1/6 font-bold'>SN</h3>
+            <h3 className='basis-1/6 font-bold'>Product Name</h3>
+            <h3 className='basis-1/6 font-bold'>Price</h3>
+            <h3 className='basis-1/6 font-bold'>Stock Quantity</h3>
+            <h3 className='basis-2/6 font-bold'>Actions</h3>
+        </div>
+        {products.map(product => { return(
+        <div className='flex flex-row mt-6'>
+            <h3 className='basis-1/6'>{product.id}</h3>
+            <h3 className='basis-1/6'>{product.title}</h3>
+            <h3 className='basis-1/6'>{product.price}</h3>
+            <h3 className='basis-1/6'>{product.stock}</h3>
+            <h3 className='basis-2/6'>
+            <div className='flex text-2xl'>
+                <MdModeEdit className='mr-4 border border-black cursor-pointer hover:bg-red-100 rounded-xl'/>
+                <Link to={`/product/${product.id}`}>
+                <IoEyeSharp className='mr-4 border border-black cursor-pointer hover:bg-red-100 rounded-xl'/>
+                </Link>
+                <MdDelete className='border border-red-500 cursor-pointer rounded-xl text-red-500 hover:bg-red-100'/>
             </div>
-            </div>
-
-            <div>
-               <p className='text-lg font-semibold'>Product Name</p>
-               <div>
-                {
-                    products.map((order)=>{
-                        return( <p className='text-gray-500 text-sm py-1'>{order.title}</p> )
-                    })
-                }
-            </div>
-            </div>
-
-            <div>
-               <p className='text-lg font-semibold'>Price</p>
-               <div>
-                {
-                   products.map((order)=>{
-                        return( <p className='text-gray-500 text-sm py-1'>{order.price}</p> )
-                    })
-                }
-            </div>
-            </div>
-
-            <div>
-               <p className='text-lg font-semibold'>Stock Quantity</p>
-               <div>
-                {
-                    products.map((order)=>{
-                        return( <p className='text-gray-500 text-sm py-1'>{order.stock}</p> )
-                    })
-                }
-            </div>
-            </div>
-
-            {/* <div>
-               <p className='text-lg font-semibold'>Category</p>
-               <div>
-                {
-                    Category.map((CurrEle)=>{
-                        return( <p className='text-gray-500 text-sm py-1'>{CurrEle}</p> )
-                    })
-                }
-            </div>
-            </div> */}
-
-            <div>
-               <p className='text-lg font-semibold'>Actions</p>
-               <div>
-               {products.map((product)=>{
-                        return( 
-                            <div className='flex text-2xl'>
-                            <MdModeEdit className='mr-4 border border-black cursor-pointer hover:bg-red-100 rounded-xl'/>
-                            <Link to={`/product/${product.id}`}>
-                            <IoEyeSharp className='mr-4 border border-black cursor-pointer hover:bg-red-100 rounded-xl'/>
-                            </Link>
-                            <MdDelete className='border border-red-500 cursor-pointer rounded-xl text-red-500 hover:bg-red-100'/>
-                        </div>
-                         )
-                    })
-                }
-                
-            </div>
-            </div>
-
-            
-            
-   
-           
-    </div>
+            </h3>
+        </div>
+        )})}
+        </div>
     )
 }
 export default Product;

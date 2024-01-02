@@ -7,6 +7,7 @@ import App from "./App";
 import ConfirmationPage from "./pages/ConformationPage";
 import AddProdForm from "./components/AddProdForm";
 import ProductView from "./pages/ProductView";
+import OrderView from "./pages/OrderView"
 import { AiComponent } from "./components/AIComponents/AIComponent";
 
 export default createBrowserRouter([
@@ -28,6 +29,14 @@ export default createBrowserRouter([
       },
       {
         path:"/product/:productId",
+        element:<ProductView />
+      },
+      {
+        path:"/orders/:orderId",
+        element:<OrderView />
+      },
+      {
+        path:"/products/:productId",
         element:<ProductView />
       },
       {
