@@ -4,3 +4,10 @@ body{
     box-sizing: content-box;
     font-family: 'Outfit', sans-serif;
 }
+
+
+.App{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    padding: 33px 27px;
+}

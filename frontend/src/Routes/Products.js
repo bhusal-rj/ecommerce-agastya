@@ -1,8 +1,10 @@
 import AddProdForm from "../components/AddProdForm";
+import ProductsList from "../components/ProductsList";
+
 function Products(){
     return(
         <div>
-            <AddProdForm />
+            <ProductsList />
         </div>
     );
 }
