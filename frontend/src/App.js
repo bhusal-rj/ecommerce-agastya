@@ -3,10 +3,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./Routes/Dashboard";
 import Products from "./Routes/Products";
 import ErrorPage from "./Routes/404";
+import Sidebar from './components/Sidebar';
 
 function App() {
   return (
     <div className="App">
+    <Sidebar />
     <BrowserRouter>
       <Routes>
         <Route path="/">
