@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const requester = axios.create({
-  baseURL: "http://localhost:3000/api/v1/"
+  baseURL: "http://localhost:3002/api/v1/"
 })
 
 export const getRequest = async (url, token) => {
@@ -11,10 +11,8 @@ export const getRequest = async (url, token) => {
   return res;
 };
 
-export const postRequest = async (url, post, token) => {
-  const res = await requester.post(url, post, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const postRequest = async (url, post) => {
+  const res = await requester.post(url, post);
   return res;
 };
 
