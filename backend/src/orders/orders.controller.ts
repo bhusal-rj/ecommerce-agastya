@@ -21,8 +21,8 @@ export class OrdersController {
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  async findAll() {
+    return await this.ordersService.findAll();
   }
 
   @Get(':id')

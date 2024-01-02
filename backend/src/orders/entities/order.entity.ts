@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -15,7 +16,7 @@ export class OrderEntity {
   id: number;
 
   @ManyToMany(() => ProductEntity)
-  @JoinColumn()
+  @JoinTable()
   products: ProductEntity[];
 
   @Column()
@@ -32,18 +33,6 @@ export class OrderEntity {
 
   @Column()
   shipCountry: string;
-
-  @Column()
-  qty: number;
-
-  @Column()
-  title: string;
-
-  @Column()
-  sku: string;
-
-  @Column()
-  totalprice: number;
 
   @ManyToOne(() => ChannelEntity, (channel) => channel.orders)
   channel: number;

@@ -22,6 +22,6 @@ export class ProductController {
     return await this.productServices.createProduct(createProductDTO);
   }
 
-  @Post()
+  @Post('ai')
   async getInformationAbout(@Body() message: string) {}
 }

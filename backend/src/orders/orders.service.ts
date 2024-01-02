@@ -26,14 +26,24 @@ export class OrdersService {
       relations: ['inventory', 'products'],
     });
 
-    const newOrder = this.orderRepository.create();
-    const createdOrder = Object.assign(newOrder, createOrderDto);
+    let newOrder = new OrderEntity();
+    newOrder.orderId = createOrderDto.orderId;
+    newOrder.shipAddress1 = createOrderDto.shipAddress1;
+    newOrder.shipCity = createOrderDto.shipCity;
+    newOrder.shipCountry = createOrderDto.shipCountry;
+    newOrder.shipPostalCode = createOrderDto.shipPostalCode;
+    const savedOrder = await this.orderRepository.save(newOrder);
+    newOrder = await this.orderRepository.findOne({
+      where: { id: savedOrder.id },
+      relations: ['products'],
+    });
 
     if (!channelRequest) throw new Error('There has been an error');
     for (let productDto of createOrderDto.products) {
       const product = await this.productRepository.findOne({
         where: { sku: productDto.sku },
       });
+      if (!product) return;
       const inventory = await this.inventoryRepository
         .createQueryBuilder('inventory')
         .leftJoinAndSelect('inventory.channel', 'channel')
@@ -41,20 +51,31 @@ export class OrdersService {
         .leftJoinAndSelect('inventory.product', 'product')
         .andWhere('product.sku = :sku', { sku: productDto.sku })
         .getOne();
+
+      newOrder.products.push(product);
       const boughtQty = productDto.qty;
       inventory.stock = inventory.stock - boughtQty;
       product.stock = product.stock - boughtQty;
+      console.log(product.stock);
       const saved = await this.inventoryRepository.save(inventory);
+
       await this.productRepository.save(product);
       console.log(saved);
     }
-    await this.orderRepository.save(createdOrder);
+
+    await this.orderRepository.save(newOrder);
 
     //notify other about the stock syncing
   }
 
-  findAll() {
-    return `This action returns all orders`;
+  async findAll() {
+    const allOrders = await this.orderRepository.find({
+      relations: ['products'],
+    });
+    return {
+      orders: allOrders,
+      count: allOrders.length,
+    };
   }
 
   findOne(id: number) {
