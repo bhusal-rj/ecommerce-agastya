@@ -42,6 +42,12 @@ export class ProductService {
         sku: product?.sku,
         productId: createdProducts.id,
         price: product?.price,
+        stockLevels: [
+          {
+            stockOnHand: product?.stock,
+            stockLocationId: 1,
+          },
+        ],
         translations: [
           {
             languageCode: LanguageCode.en,

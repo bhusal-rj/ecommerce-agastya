@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { createdProductTypes } from './types/product.types';
 import { InjectRepository } from '@nestjs/typeorm';
-import { retry } from 'rxjs';
+
 import { InventoryEntity } from './entities/inventory.entity';
 import { ChannelEntity } from 'src/channels/entities/channel.entity';
 
