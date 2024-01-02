@@ -54,6 +54,17 @@ export class ProductsService {
         inventory.stock = singleChannel.stock;
         const savedInventory = await this.inventoryRepository.save(inventory);
         savedInventories.push(savedInventory);
+
+        //notify the backend regarding the product addition
+        const data = await fetch(`${channel.url}products`, {
+          method: 'POST',
+          body: JSON.stringify(createProductDto),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log(channel.url);
       }
     }
 

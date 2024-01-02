@@ -41,7 +41,7 @@ export class StorePlugin implements OnApplicationBootstrap {
 
         channelId: process.env.SELRO_CHANNEL_ID,
       };
-      console.log(data);
+
       await fetch("http://localhost:3000/api/v1/orders/new", {
         method: "POST",
         headers: {

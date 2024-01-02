@@ -6,6 +6,7 @@ import { OrderEntity } from './entities/order.entity';
 import { Repository } from 'typeorm';
 import { ChannelEntity } from 'src/channels/entities/channel.entity';
 import { ProductEntity } from 'src/products/entities/product.entity';
+import { InventoryEntity } from 'src/products/entities/inventory.entity';
 
 @Injectable()
 export class OrdersService {
@@ -16,26 +17,36 @@ export class OrdersService {
     private readonly channelRepository: Repository<ChannelEntity>,
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
+    @InjectRepository(InventoryEntity)
+    private readonly inventoryRepository: Repository<InventoryEntity>,
   ) {}
   async createOrder(createOrderDto: CreateOrderDto) {
-    const newOrder = this.orderRepository.create();
-    const createdOrder = Object.assign(newOrder, createOrderDto);
-    const savedOrder = await this.orderRepository.save(createdOrder);
+    // const newOrder = this.orderRepository.create();
+    // const createdOrder = Object.assign(newOrder, createOrderDto);
+    // const savedOrder = await this.orderRepository.save(createdOrder);
+
     const channelRequest = await this.channelRepository.findOne({
       where: { url: createOrderDto.url },
       relations: ['inventory', 'products'],
     });
-    const selectedProduct = await this.productRepository.findOne({
+    if (!channelRequest) throw new Error('There has been an error');
+    const product = await this.productRepository.findOne({
       where: { sku: createOrderDto.sku },
-      relations: ['inventory', 'channel.inventory'],
     });
-    console.log(selectedProduct);
-    const currentChannel = await this.channelRepository
-      .createQueryBuilder('channel')
-      .where('channel.url = :url', { url: createOrderDto.url })
-
+    const inventory = await this.inventoryRepository
+      .createQueryBuilder('inventory')
+      .leftJoinAndSelect('inventory.channel', 'channel')
+      .andWhere('channel.id = :id', { id: channelRequest.id })
+      .leftJoinAndSelect('inventory.product', 'product')
+      .andWhere('product.sku = :sku', { sku: createOrderDto.sku })
       .getOne();
-    console.log(currentChannel);
+    const boughtQty = createOrderDto.qty;
+    inventory.stock = inventory.stock - boughtQty;
+    product.stock = product.stock - boughtQty;
+    const saved = await this.inventoryRepository.save(inventory);
+    await this.productRepository.save(product);
+    console.log(saved);
+    //notify other about the stock syncing
   }
 
   findAll() {
