@@ -5,7 +5,8 @@ import Channels from "./pages/Channels";
 import Dashboard from "./pages/Dashboard";
 import App from "./App";
 import ConfirmationPage from "./pages/ConformationPage";
-import AddProdForm from "./components/AddProdForm"
+import AddProdForm from "./components/AddProdForm";
+import ProductView from "./pages/ProductView";
 import { AiComponent } from "./components/AIComponents/AIComponent";
 
 export default createBrowserRouter([
@@ -24,6 +25,10 @@ export default createBrowserRouter([
       {
         path: "/addproduct",
         element: <AddProdForm />,
+      },
+      {
+        path:"/product/:productId",
+        element:<ProductView />
       },
       {
         path: "/orders",

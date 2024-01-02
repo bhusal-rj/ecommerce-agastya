@@ -5,6 +5,8 @@ import { IoFilterOutline } from "react-icons/io5";
 import { IoMdArrowDropright } from "react-icons/io";
 import Product from "../components/productComponents/Product";
 import {Link} from "react-router-dom"
+import {useEffect} from 'react';
+import { getProducts } from "../apiservices/index";
 const Orders = () => {
   const Stock_Quantity = [
     {
@@ -45,12 +47,22 @@ const Orders = () => {
       label: "Actions",
     },
   ];
-  const prods = [{
-    id:1,
-    price:200,
-    title:"Iphone",
-    quantity:10
-  }]
+  // const prods = [{
+  //   id:1,
+  //   price:200,
+  //   title:"Iphone",
+  //   quantity:10
+  // }]
+const [prods,setProds] = useState([]);
+useEffect(() =>{
+  getProducts().then(data =>{
+    setProds(data.products);
+    console.log(prods);
+  }).catch(err =>{
+    console.log(err);
+  })
+},[])
+
   const [inputValue, setInputValue] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
