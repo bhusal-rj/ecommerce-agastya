@@ -4,3 +4,10 @@ export const getOrders = async () => {
     const res = await getRequest("/orders/all");
     return res.data;
   };
+  export const getChannels = async () => {
+    const res = await getRequest("/channels/all");
+    return res.data;
+  };
+  export const AddProduct=async()=>{
+    console.log("added product");
+  }

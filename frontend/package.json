@@ -1,8 +1,26 @@
 {
   "name": "hackathon",
   "private": true,
+<<<<<<< HEAD
   "version": "0.0.0",
   "type": "module",
+=======
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
+    "react-router": "^6.21.1",
+    "react-router-dom": "^6.21.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+>>>>>>> ebbbd8abb843e93bf9224a95c9c83a81dba0b077
   "scripts": {
     "dev": "vite",
     "build": "vite build",
