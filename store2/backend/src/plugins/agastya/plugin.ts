@@ -23,7 +23,7 @@ export class StorePlugin implements OnApplicationBootstrap {
     this.eventBus.ofType(OrderPlacedEvent).subscribe(async (event) => {
       const line = event?.order?.lines[0];
       const data = {
-        url: "http://localhost:4000/",
+        url: "http://localhost:5000/",
         orderId: event.order.id.toString(),
         shipPostalCode: event.order?.shippingAddress?.postalCode || "",
         shipAddress1: event.order?.shippingAddress?.streetLine1 || "",
