@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function AddProdForm() {
   const [channels, setChannels] = useState(null);
-  //const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedChannels, setSelectedChannels] = useState([]);
   const navigate = useNavigate();
 
@@ -135,7 +135,9 @@ function AddProdForm() {
                       });
                       setSelectedChannels([]);
                       navigate("/products")
-        })
+        }).catch(function(error) {
+            console.log(error);
+          });
     
  
       

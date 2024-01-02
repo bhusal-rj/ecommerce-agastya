@@ -21,5 +21,5 @@ export const getOrders = async () => {
 
   export const AddProduct=async(payload)=>{
     const res = await postRequest("/products",payload);
-    return res.data;
+    return res;
   }
