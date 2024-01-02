@@ -44,13 +44,13 @@ const navOption = [
     path: "/ai",
     icon: MdKey,
   },
-  {
-    id: 6,
-    label: "AI Metrics",
-    isActive: false,
-    path: "/insight",
-    icon: MdAir,
-  },
+  // {
+  //   id: 6,
+  //   label: "AI Metrics",
+  //   isActive: false,
+  //   path: "/insight",
+  //   icon: MdAir,
+  // },
 ];
   const [navOptions, setNavOptions] = useState(navOption);
 
