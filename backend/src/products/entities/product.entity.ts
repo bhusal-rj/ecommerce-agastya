@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   OneToMany,
   OneToOne,
@@ -42,7 +43,7 @@ export class ProductEntity {
   @Column({ default: 0 })
   qty: number;
 
-  @OneToOne(() => OrderProduct, (op) => op.product)
-  @JoinColumn()
-  orderProduct: OrderProduct;
+  @ManyToMany(() => OrderProduct, (op) => op.product)
+  @JoinTable()
+  orderProduct: OrderProduct[];
 }

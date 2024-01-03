@@ -45,13 +45,16 @@ export class OrdersService {
     for (let productDto of createOrderDto.products) {
       const product = await this.productRepository.findOne({
         where: { sku: productDto.sku },
+        relations:["orderProduct"]
       });
       if (!product) return;
-      const productOrder = this.orderProduct.create();
+      let productOrder = this.orderProduct.create();
       productOrder.qty = productDto.qty;
-      productOrder.product = product;
+      const sav=await this.orderProduct.save(productOrder)
+  
+      // productOrder.product.push(product);
       newOrder.orderProduct.push(productOrder);
-
+      product.orderProduct.push(productOrder)
       const inventory = await this.inventoryRepository
         .createQueryBuilder('inventory')
         .leftJoinAndSelect('inventory.channel', 'channel')
@@ -61,6 +64,7 @@ export class OrdersService {
         .getOne();
 
       await this.orderProduct.save(productOrder);
+     
       // product.qty = productDto.qty;
       newOrder.products.push(product);
       const boughtQty = productDto.qty;
@@ -73,15 +77,21 @@ export class OrdersService {
       console.log('saved', saved);
     }
 
-    await this.orderRepository.save(newOrder);
+    const saved=await this.orderRepository.save(newOrder);
+    console.log(saved)
 
     //notify other about the stock syncing
   }
 
   async findAll() {
     const allOrders = await this.orderRepository.find({
-      relations: ['products', 'products.orderProduct'],
+      relations: ['products', 'orderProduct'],
     });
+    for(let orders of allOrders){
+      orders.products.forEach((element,index) => {
+        element.qty=orders.orderProduct[index]?.qty || 0
+      });
+    }
     return {
       orders: allOrders,
       count: allOrders.length,

@@ -21,7 +21,7 @@ export class OrderEntity {
   @JoinTable()
   products: ProductEntity[];
 
-  @Column()
+  @Column({nullable:true})
   orderId: number;
 
   @Column()
@@ -42,7 +42,7 @@ export class OrderEntity {
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdDate: Date;
 
-  @OneToMany(() => OrderProduct, (op) => op.order)
-  @JoinColumn()
+  @ManyToMany(() => OrderProduct, (op) => op.order)
+  @JoinTable()
   orderProduct: OrderProduct[];
 }
