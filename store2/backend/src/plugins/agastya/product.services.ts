@@ -10,6 +10,7 @@ import {
   TaxCategory,
   TransactionalConnection,
 } from "@vendure/core";
+import { skuDto } from "./sku.dto";
 
 @Injectable()
 export class ProductService {
@@ -108,5 +109,31 @@ export class ProductService {
     // const savedVariant = await productVariant.save(createdVariant);
 
     // console.log(savedVariant);
+  }
+
+  async decreaseStock(productSku: skuDto) {
+    const sku = productSku.sku;
+    const ctx = await this.requestContextService.create({ apiType: "admin" });
+    const productVariant = (await this.productVariantService.findAll(ctx))
+      .items;
+    for (let variant of productVariant) {
+      if (variant.sku == sku) {
+        const variantSku = await this.productVariantService.findOne(
+          ctx,
+          variant.id,
+          ["stockLevels"]
+        );
+        if (!variantSku) break;
+        const stockOnHand =
+          variantSku.stockLevels[0].stockOnHand - productSku.qty;
+
+        return await this.productVariantService.update(ctx, [
+          {
+            id: variant.id,
+            stockOnHand: stockOnHand,
+          },
+        ]);
+      }
+    }
   }
 }
