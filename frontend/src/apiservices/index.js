@@ -6,7 +6,7 @@ export const getProducts = async() =>{
 }
 
 export const getOrders = async () => {
-    const res = await getRequest("/orders/all");
+    const res = await getRequest("/orders/");
     return res.data;
   };
   export const getChannels = async () => {
@@ -21,5 +21,5 @@ export const getOrders = async () => {
 
   export const AddProduct=async(payload)=>{
     const res = await postRequest("/products",payload);
-    return res.data;
+    return res;
   }
