@@ -2,7 +2,7 @@
 
 ## Overview
 
-Agastya E-commerce Suite is a centralized solution for sellers, offering key features to track, manage, and gain insights into their e-commerce operations.
+Agastya E-commerce Suite is a centralized solution for sellers, offering key features to track, manage, and gain insights into their e-commerce operations. This is a seller-centric platform for sellers to optimize their sales based on AI-powered insights and reports.
 
 
 ## Core Features

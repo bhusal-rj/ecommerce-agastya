@@ -20,15 +20,9 @@ export class OrderProduct {
   @Column()
   qty: number;
 
-<<<<<<< HEAD
   @ManyToMany(() => ProductEntity, (product) => product.orderProduct)
   @JoinTable()
   product: ProductEntity[];
-=======
-  @ManyToOne(() => ProductEntity, (product) => product.orderProduct)
-  @JoinColumn()
-  product: ProductEntity;
->>>>>>> 5eb40a905e469679626664efe930c8b4a352de03
 
   @ManyToMany(() => OrderEntity, (order) => order.orderProduct)
   @JoinTable()
