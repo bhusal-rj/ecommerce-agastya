@@ -3,7 +3,10 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -17,11 +20,11 @@ export class OrderProduct {
   @Column()
   qty: number;
 
-  @ManyToOne(() => ProductEntity, (product) => product.orderProduct)
-  @JoinColumn()
-  product: ProductEntity;
+  @ManyToMany(() => ProductEntity, (product) => product.orderProduct)
+  @JoinTable()
+  product: ProductEntity[];
 
-  @ManyToOne(() => OrderEntity, (order) => order.orderProduct)
-  @JoinColumn()
+  @ManyToMany(() => OrderEntity, (order) => order.orderProduct)
+  @JoinTable()
   order: OrderEntity;
 }
