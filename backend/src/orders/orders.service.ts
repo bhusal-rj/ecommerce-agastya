@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { ChannelEntity } from 'src/channels/entities/channel.entity';
 import { ProductEntity } from 'src/products/entities/product.entity';
 import { InventoryEntity } from 'src/products/entities/inventory.entity';
+import { OrderProduct } from './entities/orderProduct.entity';
 
 @Injectable()
 export class OrdersService {
@@ -19,6 +20,8 @@ export class OrdersService {
     private readonly productRepository: Repository<ProductEntity>,
     @InjectRepository(InventoryEntity)
     private readonly inventoryRepository: Repository<InventoryEntity>,
+    @InjectRepository(OrderProduct)
+    private readonly orderProduct: Repository<OrderProduct>,
   ) {}
   async createOrder(createOrderDto: CreateOrderDto) {
     const channelRequest = await this.channelRepository.findOne({
@@ -35,15 +38,23 @@ export class OrdersService {
     const savedOrder = await this.orderRepository.save(newOrder);
     newOrder = await this.orderRepository.findOne({
       where: { id: savedOrder.id },
-      relations: ['products'],
+      relations: ['products', 'orderProduct'],
     });
 
     if (!channelRequest) throw new Error('There has been an error');
     for (let productDto of createOrderDto.products) {
       const product = await this.productRepository.findOne({
         where: { sku: productDto.sku },
+        relations:["orderProduct"]
       });
       if (!product) return;
+      let productOrder = this.orderProduct.create();
+      productOrder.qty = productDto.qty;
+      const sav=await this.orderProduct.save(productOrder)
+  
+      // productOrder.product.push(product);
+      newOrder.orderProduct.push(productOrder);
+      product.orderProduct.push(productOrder)
       const inventory = await this.inventoryRepository
         .createQueryBuilder('inventory')
         .leftJoinAndSelect('inventory.channel', 'channel')
@@ -52,29 +63,35 @@ export class OrdersService {
         .andWhere('product.sku = :sku', { sku: productDto.sku })
         .getOne();
 
-      console.log(inventory);
-
-      product.qty = productDto.qty;
+      await this.orderProduct.save(productOrder);
+     
+      // product.qty = productDto.qty;
       newOrder.products.push(product);
       const boughtQty = productDto.qty;
       inventory.stock = inventory.stock - boughtQty;
       product.stock = product.stock - boughtQty;
-      console.log(product.stock);
+
       const saved = await this.inventoryRepository.save(inventory);
 
       await this.productRepository.save(product);
       console.log('saved', saved);
     }
 
-    await this.orderRepository.save(newOrder);
+    const saved=await this.orderRepository.save(newOrder);
+    console.log(saved)
 
     //notify other about the stock syncing
   }
 
   async findAll() {
     const allOrders = await this.orderRepository.find({
-      relations: ['products'],
+      relations: ['products', 'orderProduct'],
     });
+    for(let orders of allOrders){
+      orders.products.forEach((element,index) => {
+        element.qty=orders.orderProduct[index]?.qty || 0
+      });
+    }
     return {
       orders: allOrders,
       count: allOrders.length,

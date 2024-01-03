@@ -4,11 +4,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { InventoryEntity } from './inventory.entity';
+import { OrderProduct } from 'src/orders/entities/orderProduct.entity';
 
 @Entity({ name: 'Product' })
 export class ProductEntity {
@@ -39,4 +42,8 @@ export class ProductEntity {
 
   @Column({ default: 0 })
   qty: number;
+
+  @ManyToMany(() => OrderProduct, (op) => op.product)
+  @JoinTable()
+  orderProduct: OrderProduct[];
 }
