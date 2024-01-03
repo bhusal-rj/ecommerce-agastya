@@ -78,9 +78,6 @@ export default function ProductView(){
                                 <p class="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
                                 <p class="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">${order ? order.totalPrice : ""}</p>
                             </div>
-                            <div class="flex w-full justify-center items-center pt-1 md:pt-4 xl:pt-8 space-y-6 md:space-y-8 flex-col">
-                                <button class="py-5 dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 w-full text-base font-medium leading-4 text-white bg-gray-800 hover:bg-black">Track Your Order</button>
-                            </div>
                         </div>
                     </div>
                 </div>
