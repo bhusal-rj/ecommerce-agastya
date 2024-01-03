@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function AddProdForm() {
+    const navigate=useNavigate();
   const [channels, setChannels] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedChannels, setSelectedChannels] = useState([]);
@@ -133,19 +134,10 @@ function AddProdForm() {
                         sku: "",
                       });
                       setSelectedChannels([]);
-<<<<<<< HEAD
                       navigate("/products")
         }).catch(function(error) {
             console.log(error);
-          });
-    
- 
-      
-      
-=======
-                      useNavigate("/products")
-        })  
->>>>>>> 781bc95e126c6a49986196fb51c84f2e20dc9011
+          }); 
   }
 
   function handleStockForm(channeled) {
