@@ -7,8 +7,10 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { OrderProduct } from './orderProduct.entity';
 
 @Entity({ name: 'Order' })
 export class OrderEntity {
@@ -39,4 +41,8 @@ export class OrderEntity {
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdDate: Date;
+
+  @OneToMany(() => OrderProduct, (op) => op.order)
+  @JoinColumn()
+  orderProduct: OrderProduct[];
 }

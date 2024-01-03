@@ -6,9 +6,11 @@ import {
   JoinColumn,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { InventoryEntity } from './inventory.entity';
+import { OrderProduct } from 'src/orders/entities/orderProduct.entity';
 
 @Entity({ name: 'Product' })
 export class ProductEntity {
@@ -39,4 +41,8 @@ export class ProductEntity {
 
   @Column({ default: 0 })
   qty: number;
+
+  @OneToOne(() => OrderProduct, (op) => op.product)
+  @JoinColumn()
+  orderProduct: OrderProduct;
 }
