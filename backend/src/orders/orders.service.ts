@@ -45,7 +45,20 @@ export class OrdersService {
     for (let productDto of createOrderDto.products) {
       const product = await this.productRepository.findOne({
         where: { sku: productDto.sku },
+        relations: ['channel'],
       });
+      for (let channel of product.channel) {
+        const dataSent = await fetch(`${channel.url}/products/sync-product`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify({
+            sku: productDto.sku,
+            qty: productDto.qty,
+          }),
+        });
+      }
       if (!product) return;
       const productOrder = this.orderProduct.create();
       productOrder.qty = productDto.qty;
