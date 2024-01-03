@@ -45,9 +45,9 @@ export class OrdersService {
     for (let productDto of createOrderDto.products) {
       const product = await this.productRepository.findOne({
         where: { sku: productDto.sku },
-        relations: ['orderProduct'],
+        relations: ['orderProduct', 'channel'],
       });
-      for (let channel of product.channel) {
+      for (let channel of product?.channel) {
         const dataSent = await fetch(`${channel.url}/products/sync-product`, {
           headers: {
             'Content-Type': 'application/json',
@@ -110,8 +110,21 @@ export class OrdersService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    const allOrders = await this.orderRepository.findOne({
+      relations: ['products', 'orderProduct'],
+      where: { id: id },
+    });
+    if (!allOrders) return;
+
+    allOrders.products.forEach((element, index) => {
+      element.qty = allOrders.orderProduct[index]?.qty || 0;
+    });
+    console.log(allOrders);
+    return {
+      orders: allOrders,
+      // count: allOrders.length,
+    };
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

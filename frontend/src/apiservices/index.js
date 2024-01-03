@@ -23,3 +23,7 @@ export const getOrders = async () => {
     const res = await postRequest("/products",payload);
     return res;
   }
+  export const getMessage=async(payload)=>{
+    const res = await postRequest("/products/ai",payload);
+    return res;
+  }

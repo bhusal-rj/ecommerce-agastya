@@ -22,6 +22,7 @@ export class ProductService {
   ) {}
 
   async addProducts(product: any) {
+    console.log(product);
     const ctx = await this.requestContextService.create({
       apiType: "admin",
     });
