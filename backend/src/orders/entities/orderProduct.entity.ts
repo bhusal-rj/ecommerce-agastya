@@ -17,7 +17,7 @@ export class OrderProduct {
   @Column()
   qty: number;
 
-  @OneToOne(() => ProductEntity, (product) => product.orderProduct)
+  @ManyToOne(() => ProductEntity, (product) => product.orderProduct)
   @JoinColumn()
   product: ProductEntity;
 

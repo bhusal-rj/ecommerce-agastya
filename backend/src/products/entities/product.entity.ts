@@ -42,7 +42,7 @@ export class ProductEntity {
   @Column({ default: 0 })
   qty: number;
 
-  @OneToOne(() => OrderProduct, (op) => op.product)
+  @OneToMany(() => OrderProduct, (op) => op.product)
   @JoinColumn()
   orderProduct: OrderProduct;
 }

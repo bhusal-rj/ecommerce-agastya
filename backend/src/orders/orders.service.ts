@@ -61,7 +61,6 @@ export class OrdersService {
         .getOne();
 
       await this.orderProduct.save(productOrder);
-      // product.qty = productDto.qty;
       newOrder.products.push(product);
       const boughtQty = productDto.qty;
       inventory.stock = inventory.stock - boughtQty;
