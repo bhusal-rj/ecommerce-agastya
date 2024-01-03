@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProductDto, createMessageDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
@@ -9,6 +9,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { InventoryEntity } from './entities/inventory.entity';
 import { ChannelEntity } from 'src/channels/entities/channel.entity';
 import { OrderEntity } from 'src/orders/entities/order.entity';
+import { ChainService } from './chain.services';
+import { ChatPromptTemplate } from 'langchain/prompts';
+import { LLMChain } from 'langchain/chains';
+import { PromptTemplate } from 'langchain/prompts';
+import { OpenAI } from 'langchain/llms/openai';
+import { ChatOpenAI } from 'langchain/chat_models/openai';
+import { BufferMemory } from 'langchain/memory';
+import { ConversationChain } from 'langchain/chains';
 
 @Injectable()
 export class ProductsService {
@@ -21,6 +29,7 @@ export class ProductsService {
     private readonly channelRepository: Repository<ChannelEntity>,
     @InjectRepository(OrderEntity)
     private readonly orderRepository: Repository<OrderEntity>,
+    private readonly langchainService: ChainService,
   ) {}
 
   async createProduct(
@@ -87,17 +96,52 @@ export class ProductsService {
     };
   }
 
-  async getInformationFromAI(message: string) {
-    //This is for AI part
-    const allProducts = await this.productRepository.find({
-      relations: ['inventory', 'channel'],
-    });
-    const allInventories = await this.inventoryRepository.find({
-      relations: ['product', 'channel'],
-    });
-    const allOrders = await this.orderRepository.find({
-      relations: ['channels', 'products'],
-    });
+  bufferMemory: BufferMemory;
+  chain: ConversationChain;
+  input: any;
+  async getInformationFromAi(message: createMessageDto) {
+    try {
+      this.bufferMemory = new BufferMemory();
+      const model = new ChatOpenAI({
+        modelName: 'gpt-3.5-turbo-16k',
+        openAIApiKey: process.env.API_KEY,
+      });
+
+      const allProducts = await this.productRepository.find({
+        relations: ['channel', 'inventory'],
+      });
+      const allOrders = await this.orderRepository.find({
+        relations: ['products', 'channel'],
+      });
+      const allChannels = await this.channelRepository.find({
+        relations: ['products', 'inventory', 'orders'],
+      });
+      const data = {
+        allProducts,
+        allOrders,
+        allChannels,
+      };
+      this.input = data;
+
+      const chatPrompt = ChatPromptTemplate.fromMessages([
+        [
+          'system',
+          'You are an ecommerce bot having the products,orders and channel',
+        ],
+        ['human', `{input} + ${message?.message}`],
+      ]);
+      this.chain = new LLMChain({
+        prompt: chatPrompt,
+        llm: model,
+        memory: new BufferMemory(),
+      });
+      const responseFromAi = await this.chain.call({
+        input: JSON.stringify(data),
+      });
+      return responseFromAi;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   findOne(id: number) {

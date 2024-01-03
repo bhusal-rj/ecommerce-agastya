@@ -109,4 +109,6 @@ export class ProductService {
 
     // console.log(savedVariant);
   }
+
+  async decreaseStock(productSku: string) {}
 }

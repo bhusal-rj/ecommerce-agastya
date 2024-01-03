@@ -7,7 +7,7 @@ const Orders = ({orders}) => {
     orders.forEach(order =>{
         let total = 0;
         order.products.forEach(prod =>{
-            total+=prod.price;
+            total+=prod.price * prod.qty;
         })
         order.totalPrice = total;
     })

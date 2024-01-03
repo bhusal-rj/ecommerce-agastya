@@ -26,3 +26,8 @@ export class CreateProductDto {
   @ApiProperty()
   sku: string;
 }
+
+export class createMessageDto {
+  @ApiProperty()
+  message: string;
+}
