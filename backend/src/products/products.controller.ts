@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { createdProductTypes } from './types/product.types';
-import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProductDto, createMessageDto } from './dto/create-product.dto';
 import { ProductEntity } from './entities/product.entity';
 
 @Controller('products')
@@ -23,5 +23,7 @@ export class ProductController {
   }
 
   @Post('ai')
-  async getInformationAbout(@Body() message: string) {}
+  async getInformationAbout(@Body() messageDto: createMessageDto) {
+    return await this.productServices.getInformationFromAi(messageDto);
+  }
 }
