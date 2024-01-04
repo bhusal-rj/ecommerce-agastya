@@ -18,6 +18,7 @@ export const config: VendureConfig = {
     port: 4000,
     adminApiPath: "admin-api",
     shopApiPath: "shop-api",
+
     // The following options are useful in development mode,
     // but are best turned off for production for security
     // reasons.
@@ -90,6 +91,7 @@ export const config: VendureConfig = {
     AdminUiPlugin.init({
       route: "admin",
       port: 3002,
+
       adminUiConfig: {
         apiPort: 4000,
       },

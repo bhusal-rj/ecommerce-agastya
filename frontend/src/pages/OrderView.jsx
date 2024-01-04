@@ -17,7 +17,7 @@ export default function ProductView() {
           order.totalPrice = total;
         });
         console.log(data.orders);
-        const prd = data.orders.filter((p) => p.orderId == orderId)[0];
+        const prd = data.orders.filter((p) => p.id == orderId)[0];
         setOrder(prd);
       })
       .catch((err) => {

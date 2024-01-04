@@ -29,7 +29,7 @@ const Orders = ({ orders }) => {
             <h3 className='basis-1/6'>{order.totalPrice}</h3>
             <h3 className='basis-2/6'>
               <div className='flex text-2xl'>
-                <Link to={`/orders/${order.orderId}`}>
+                <Link to={`/orders/${order.id}`}>
                   <IoEyeSharp className='mr-4 border border-black cursor-pointer hover:bg-red-100 rounded-xl' />
                 </Link>
               </div>

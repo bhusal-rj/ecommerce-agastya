@@ -42,6 +42,7 @@ export class OrdersService {
     });
 
     if (!channelRequest) throw new Error('There has been an error');
+    console.log(createOrderDto.products);
     for (let productDto of createOrderDto.products) {
       const product = await this.productRepository.findOne({
         where: { sku: productDto.sku },
